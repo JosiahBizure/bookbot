@@ -2,8 +2,8 @@ def main(file_path):
     with open(file_path) as file:
         file_contents = file.read()
         word_count = count_words(file_contents)
-        char_count = num_characters(file_contents)
-        print_report(file, word_count, char_count)
+        char_occurances = num_characters(file_contents)
+        print_report(file_path, word_count, char_occurances)
 
 # returns the number of words in a string
 def count_words(str):
@@ -31,17 +31,17 @@ def num_characters(str):
     return char_occurances
 
 # prints a report of the word and character data to the console
-def print_report(file, word_count, char_occurances):
-    print(f"--- Begin report of {file} ---")
+def print_report(file_path, word_count, char_occurrences): 
+    print(f"--- Begin report of {file_path} ---")
     print(f"{word_count} words found in the document\n")
     
-    # Create a list of characters and their counts
-    char_list = [{"char": k, "num": v} for k, v in char_occurances]
+    # Create a sorted dictionary of characters and their counts
+    sorted_char_occurrences = sorted(char_occurrences.items(), key = lambda item: item[1], reverse = True)
+    
+    for char, count in sorted_char_occurrences:
+        print(f"The '{char}' character was found {count} times")
 
-    # Sort the characters by number of occurances
-    char_list.sort()
-    for entry in char_list:
-        print(f"The '{entry['char']}' character was found {entry['num']} times")
+    print(f"--- End report of {file_path} ---")
 
 if __name__ == "__main__":
     file_path = "books/frankenstein.txt"
